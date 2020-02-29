@@ -1,14 +1,42 @@
 import React from 'react'
 import { render } from 'react-dom'
-import Root from './app/Root'
 
-// Since we are using HtmlWebpackPlugin WITHOUT a template, we should create our own root node in the body element before rendering into it
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
+import { CssBaseline } from '@material-ui/core';
+
+import { Provider } from 'react-redux';
+import store from './app/store/configureStore'
+
+// import Root from './app/Root'
+import App from './app/App'
+
+import './assets/css/Root.css'
+
 let root = document.createElement('div')
-
 root.id = 'root'
-
 document.body.appendChild(root)
-document.title = 'Foda-se!'
+document.title = 'Github Repo Searcher'
 
-// Now we can render our application into it
-render(<Root />, document.getElementById('root'))
+const theme = createMuiTheme({
+  palette: {
+    background: {
+      default: "#f1f1f1"
+    },
+    primary: {
+      main: '#24292e',
+    },
+    secondary: {
+      main: '#880e4f',
+    },
+  },
+});
+
+render(
+  <Provider store={store}>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <App />
+    </ThemeProvider>
+  </Provider>,
+  document.getElementById('root')
+)
