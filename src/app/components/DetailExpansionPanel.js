@@ -11,11 +11,13 @@ import ExpansionPanelActions from '@material-ui/core/ExpansionPanelActions';
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import Divider from '@material-ui/core/Divider';
+import Button from '@material-ui/core/Button';
 
 // MUI Icons
 import StarIcon from '@material-ui/icons/Star';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import GithubIcon from '@material-ui/icons/GitHub';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -76,6 +78,10 @@ const useStyles = makeStyles((theme) => ({
       marginRight: theme.spacing(0.5),
     },
   },
+  actions: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
 }));
 
 export default function DetailExpansionPanel({ data }) {
@@ -116,8 +122,8 @@ export default function DetailExpansionPanel({ data }) {
               {data.language}
               <br />
               <a
-                href={data.html_url}
                 className={classes.link}
+                href={data.html_url}
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -137,6 +143,19 @@ export default function DetailExpansionPanel({ data }) {
               <VisibilityIcon fontSize="small" />
               {data.watchers_count}
             </div>
+          </div>
+          <div className={classes.actions}>
+            <Button
+              size="small"
+              variant="outlined"
+              color="primary"
+              startIcon={<GithubIcon />}
+              href={data.html_url}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Repositório
+            </Button>
           </div>
         </ExpansionPanelActions>
       </ExpansionPanel>

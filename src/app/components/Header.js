@@ -11,7 +11,7 @@ import {
 import { fade, makeStyles } from '@material-ui/core/styles';
 
 // MUI icons
-import GitHubIcon from '@material-ui/icons/GitHub';
+import GithubIcon from '@material-ui/icons/GitHub';
 import SearchIcon from '@material-ui/icons/Search';
 import { setState, fetchRepos } from '../store/repos/actions';
 
@@ -77,7 +77,7 @@ export default function Header() {
       <AppBar position="static" elevation={0} className={classes.header}>
         <div className={classes.appTitle}>
           <Typography align="center" variant="h4" component="h1">
-            <GitHubIcon />
+            <GithubIcon />
             Github Repo Searcher
           </Typography>
         </div>
