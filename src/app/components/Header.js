@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 // MUI components
 import {
@@ -12,10 +13,13 @@ import { fade, makeStyles } from '@material-ui/core/styles';
 // MUI icons
 import GitHubIcon from '@material-ui/icons/GitHub';
 import SearchIcon from '@material-ui/icons/Search';
+import { setState, fetchRepos } from '../store/repos/actions';
 
-const useStyles = makeStyles(theme => ({
+import useDebounce from '../utils/hooks/useDebounce';
+
+const useStyles = makeStyles((theme) => ({
   header: {
-    padding: theme.spacing(1)
+    padding: theme.spacing(1),
   },
   appTitle: {
     margin: theme.spacing(2),
@@ -48,19 +52,36 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(1.6, 2, 1.6, 7),
     transition: theme.transitions.create('width'),
     width: '100%',
-  }
+  },
 }));
 
 export default function Header() {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const topic = useSelector((state) => state.repos.topic);
   const [value, setValue] = useState('');
+
+  const debouncedValue = useDebounce(value, 500);
+
+  function handleChange({ target }) {
+    dispatch(setState({ state: 'topic', value: target.value }));
+    setValue(target.value);
+  }
+
+  useEffect(() => {
+    // Make sure we have a value (user has entered something in input)
+    if (debouncedValue) {
+      dispatch(fetchRepos(topic));
+    }
+  }, [debouncedValue]); // eslint-disable-line
 
   return (
     <div>
       <AppBar position="static" elevation={0} className={classes.header}>
         <div className={classes.appTitle}>
           <Typography align="center" variant="h4" component="h1">
-            <GitHubIcon /> Github Repo Searcher
+            <GitHubIcon />
+            Github Repo Searcher
           </Typography>
         </div>
         <Toolbar>
@@ -76,12 +97,12 @@ export default function Header() {
                 input: classes.inputInput,
               }}
               inputProps={{ 'aria-label': 'search' }}
-              onChange={({ target }) => setValue(target.value)}
+              onChange={handleChange}
               value={value}
             />
           </div>
         </Toolbar>
       </AppBar>
     </div>
-  )
+  );
 }

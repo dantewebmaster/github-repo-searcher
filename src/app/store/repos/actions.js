@@ -1,41 +1,34 @@
 import ReposTypes from './types';
 
-export const fetchRepos = () => {
-  return {
-    type: ReposTypes.FETCH_REPOS_REQUEST,
-  }
-}
+export const setState = (payload) => ({
+  type: ReposTypes.SET_STATE,
+  payload,
+});
 
-export const fetchReposSuccess = (payload) => {
-  return {
-    type: ReposTypes.FETCH_REPOS_SUCCESS,
-    payload,
-  }
-}
+export const fetchRepos = () => ({
+  type: ReposTypes.FETCH_REPOS_REQUEST,
+});
 
-export const fetchReposFailure = (payload) => {
-  return {
-    type: ReposTypes.FETCH_REPOS_FAILURE,
-    payload,
-  }
-}
+export const fetchReposSuccess = (payload) => ({
+  type: ReposTypes.FETCH_REPOS_SUCCESS,
+  payload,
+});
 
-export const fetchMoreRepos = () => {
-  return {
-    type: ReposTypes.FETCH_MORE_REPOS_REQUEST,
-  }
-}
+export const fetchReposFailure = (payload) => ({
+  type: ReposTypes.FETCH_REPOS_FAILURE,
+  payload,
+});
 
-export const fetchMoreReposSuccess = (payload) => {
-  return {
-    type: ReposTypes.FETCH_MORE_REPOS_SUCCESS,
-    payload,
-  }
-}
+export const fetchMoreRepos = () => ({
+  type: ReposTypes.FETCH_MORE_REPOS_REQUEST,
+});
 
-export const fetchMoreReposFailure = (payload) => {
-  return {
-    type: ReposTypes.FETCH_MORE_REPOS_FAILURE,
-    payload,
-  }
-}
+export const fetchMoreReposSuccess = (payload) => ({
+  type: ReposTypes.FETCH_MORE_REPOS_SUCCESS,
+  payload,
+});
+
+export const fetchMoreReposFailure = (payload) => ({
+  type: ReposTypes.FETCH_MORE_REPOS_FAILURE,
+  payload,
+});

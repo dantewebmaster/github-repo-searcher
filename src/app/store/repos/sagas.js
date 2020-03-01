@@ -1,28 +1,35 @@
-import { put, takeEvery, call, select } from 'redux-saga/effects'
+import {
+  put, takeEvery, call, select,
+} from 'redux-saga/effects';
 import * as actions from './actions';
-import ReposTypes from './types';
 import * as selectors from './selectors';
+import ReposTypes from './types';
 
-import * as githubApi from '../../services/github.service'
+import * as githubApi from '../../services/github.service';
 
 export function* fetchReposRequest() {
   try {
-    const page = yield select(selectors.selectPage)
-    const response = yield call(githubApi.searchRepos, 'redux', page)
-    yield put(actions.fetchReposSuccess(response.data))
+    let page = yield select(selectors.selectPage);
+    const topic = yield select(selectors.selectTopic);
+
+    const response = yield call(githubApi.searchRepos, topic, page);
+    yield put(actions.fetchReposSuccess(response.data));
+    yield put(actions.setState({ state: 'page', value: page += 1 }));
   } catch (error) {
-    yield put(actions.fetchReposFailure(error.response))
+    yield put(actions.fetchReposFailure(error.response));
   }
 }
 
 export function* fetchMoreReposRequest() {
   try {
-    const page = yield select(selectors.selectPage)
-    const response = yield call(githubApi.searchRepos, 'redux', page)
-    yield put(actions.fetchMoreReposSuccess(response.data))
+    let page = yield select(selectors.selectPage);
+    const topic = yield select(selectors.selectTopic);
+
+    const response = yield call(githubApi.searchRepos, topic, page);
+    yield put(actions.fetchMoreReposSuccess(response.data));
+    yield put(actions.setState({ state: 'page', value: page += 1 }));
   } catch (error) {
-    console.log(error)
-    yield put(actions.fetchMoreReposFailure(error.response))
+    yield put(actions.fetchMoreReposFailure(error.response));
   }
 }
 
@@ -37,4 +44,4 @@ export function* watchFetchMoreRepos() {
 export const sagas = [
   watchFetchRepos,
   watchFetchMoreRepos,
-]
+];

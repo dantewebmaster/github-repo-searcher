@@ -1,6 +1,9 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
 import clsx from 'clsx';
+
+// MUI Components
+import { makeStyles } from '@material-ui/core/styles';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
@@ -9,11 +12,12 @@ import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import Divider from '@material-ui/core/Divider';
 
+// MUI Icons
 import StarIcon from '@material-ui/icons/Star';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
     marginBottom: '4px',
@@ -56,7 +60,7 @@ const useStyles = makeStyles(theme => ({
   owner: {
     display: 'flex',
     alignItems: 'center',
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
   stats: {
     width: '100%',
@@ -69,8 +73,8 @@ const useStyles = makeStyles(theme => ({
     marginRight: theme.spacing(1),
 
     '& > svg': {
-      marginRight: theme.spacing(0.5)
-    }
+      marginRight: theme.spacing(0.5),
+    },
   },
 }));
 
@@ -108,7 +112,8 @@ export default function DetailExpansionPanel({ data }) {
           </div>
           <div className={clsx(classes.column, classes.helper)}>
             <Typography variant="caption">
-              Linguagem: {data.language}
+              Linguagem:
+              {data.language}
               <br />
               <a
                 href={data.html_url}
@@ -125,10 +130,12 @@ export default function DetailExpansionPanel({ data }) {
         <ExpansionPanelActions>
           <div className={classes.stats}>
             <div className={classes.stat}>
-              <StarIcon fontSize="small" /> {data.stargazers_count}
+              <StarIcon fontSize="small" />
+              {data.stargazers_count}
             </div>
             <div className={classes.stat}>
-              <VisibilityIcon fontSize="small" /> {data.watchers_count}
+              <VisibilityIcon fontSize="small" />
+              {data.watchers_count}
             </div>
           </div>
         </ExpansionPanelActions>
@@ -136,3 +143,20 @@ export default function DetailExpansionPanel({ data }) {
     </div>
   );
 }
+
+DetailExpansionPanel.propTypes = {
+  data: PropTypes.shape({
+    id: PropTypes.number,
+    watchers_count: PropTypes.number,
+    stargazers_count: PropTypes.number,
+    html_url: PropTypes.string,
+    language: PropTypes.string,
+    description: PropTypes.string,
+    name: PropTypes.string,
+
+    owner: PropTypes.shape({
+      login: PropTypes.string,
+      avatar_url: PropTypes.string,
+    }).isRequired,
+  }).isRequired,
+};

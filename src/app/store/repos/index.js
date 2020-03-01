@@ -7,6 +7,6 @@ export {
   types,
   actions,
   sagas,
-}
+};
 
 export default reducer;

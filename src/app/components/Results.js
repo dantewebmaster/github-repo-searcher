@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import {
   CircularProgress,
@@ -9,9 +10,9 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 
-import DetailedExpansionPanel from './DetailExpansionPanel'
+import DetailedExpansionPanel from './DetailExpansionPanel';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   results: {
     margin: theme.spacing(1, 4, 0, 4),
     padding: theme.spacing(0, 1, 1.6, 1),
@@ -50,7 +51,7 @@ const useStyles = makeStyles(theme => ({
 
     '& > svg': {
       fontSize: 80,
-    }
+    },
   },
 }));
 
@@ -60,21 +61,29 @@ export default function Results({ state }) {
   return (
     <>
       <div className={classes.results} id="results">
-        {!state.loading && state.repos.length > 0 && state.repos.map(repo => (
+        {!state.loading && state.repos.length > 0 && state.repos.map((repo) => (
           <DetailedExpansionPanel
             key={repo.id}
             data={repo}
-          />))}
+          />
+        ))}
 
         {!state.loading && state.repos.length === 0 && true && (
           <Card elevation={0} className={classes.card}>
             <CardContent>
               <Typography className={classes.searchTitle} align="center" variant="h3" component="h3">
-                <SearchIcon /> <span>Pesquise por <br />repositórios</span>
+                <SearchIcon />
+                <span>
+                  Pesquise por
+                  <br />
+                  repositórios
+                </span>
               </Typography>
               <br />
               <Typography align="center" variant="body1" component="p">
-                Digite os termos de busca no campo de texto<br /> acima para fazer uma busca por repositórios no github.
+                Digite os termos de busca no campo de texto
+                <br />
+                acima para fazer uma busca por repositórios no github.
               </Typography>
             </CardContent>
           </Card>
@@ -87,7 +96,8 @@ export default function Results({ state }) {
                 Errrroww...
               </Typography>
               <Typography align="center" variant="body1" component="p">
-                Sua busca não retornou resultados. Teste pesquisar novamente com palavras difenrentes
+                Sua busca não retornou resultados.
+                Teste pesquisar novamente com palavras difenrentes
               </Typography>
             </CardContent>
           </Card>
@@ -106,5 +116,13 @@ export default function Results({ state }) {
         </div>
       )}
     </>
-  )
+  );
 }
+
+Results.propTypes = {
+  state: PropTypes.shape({
+    repos: PropTypes.array,
+    loading: PropTypes.bool,
+    loadingMore: PropTypes.bool,
+  }).isRequired,
+};
