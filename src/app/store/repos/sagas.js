@@ -5,14 +5,14 @@ import * as actions from './actions';
 import * as selectors from './selectors';
 import ReposTypes from './types';
 
-import * as githubApi from '../../services/github.service';
+import searchRepos from '../../services/github.service';
 
 export function* fetchReposRequest() {
   try {
     let page = yield select(selectors.selectPage);
     const topic = yield select(selectors.selectTopic);
 
-    const response = yield call(githubApi.searchRepos, topic, page);
+    const response = yield call(searchRepos, topic, page);
     yield put(actions.fetchReposSuccess(response.data));
     yield put(actions.setState({ state: 'page', value: page += 1 }));
   } catch (error) {
@@ -25,7 +25,7 @@ export function* fetchMoreReposRequest() {
     let page = yield select(selectors.selectPage);
     const topic = yield select(selectors.selectTopic);
 
-    const response = yield call(githubApi.searchRepos, topic, page);
+    const response = yield call(searchRepos, topic, page);
     yield put(actions.fetchMoreReposSuccess(response.data));
     yield put(actions.setState({ state: 'page', value: page += 1 }));
   } catch (error) {

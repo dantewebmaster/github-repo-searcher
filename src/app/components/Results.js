@@ -42,6 +42,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     alignItems: 'center',
     color: '#999',
+    padding: theme.spacing(2, 2, 2, 2),
   },
   searchTitle: {
     display: 'flex',

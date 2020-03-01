@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 // MUI components
 import {
@@ -58,9 +58,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Header() {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const topic = useSelector((state) => state.repos.topic);
   const [value, setValue] = useState('');
-
   const debouncedValue = useDebounce(value, 500);
 
   function handleChange({ target }) {
@@ -69,11 +67,10 @@ export default function Header() {
   }
 
   useEffect(() => {
-    // Make sure we have a value (user has entered something in input)
     if (debouncedValue) {
-      dispatch(fetchRepos(topic));
+      dispatch(fetchRepos());
     }
-  }, [debouncedValue]); // eslint-disable-line
+  }, [debouncedValue, dispatch]);
 
   return (
     <div>

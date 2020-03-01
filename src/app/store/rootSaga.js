@@ -1,8 +1,8 @@
-import { sagas as reposSagas } from './repos';
 import { fork, all } from 'redux-saga/effects';
+import { sagas as reposSagas } from './repos';
 
 const allSagas = [
-  ...reposSagas
+  ...reposSagas,
 ];
 
 export default function* rootSaga() {
