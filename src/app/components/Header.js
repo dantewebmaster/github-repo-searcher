@@ -70,6 +70,9 @@ export default function Header() {
     if (debouncedValue) {
       dispatch(fetchRepos());
     }
+    if (debouncedValue === '') {
+      dispatch(setState({ state: 'repos', value: [] }));
+    }
   }, [debouncedValue, dispatch]);
 
   return (

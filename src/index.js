@@ -10,7 +10,7 @@ import store from './app/store/configureStore';
 // import Root from './app/Root'
 import App from './app/App';
 
-import './assets/css/Root.css';
+import './assets/css/App.css';
 
 const root = document.createElement('div');
 root.id = 'root';
