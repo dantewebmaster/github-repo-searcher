@@ -23,6 +23,10 @@ const useStyles = makeStyles((theme) => ({
   },
   appTitle: {
     margin: theme.spacing(2),
+
+    '& svg': {
+      marginRight: theme.spacing(1),
+    },
   },
   search: {
     position: 'relative',

@@ -12,12 +12,14 @@ import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
+import Chip from '@material-ui/core/Chip';
 
 // MUI Icons
 import StarIcon from '@material-ui/icons/Star';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import GithubIcon from '@material-ui/icons/GitHub';
+import CodeIcon from '@material-ui/icons/Code';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
   },
   column: {
-    flexBasis: '33.33%',
+    flexBasis: '50%',
   },
   helper: {
     borderLeft: `2px solid ${theme.palette.divider}`,
@@ -82,6 +84,11 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'row',
   },
+  chips: {
+    '& div': {
+      margin: theme.spacing(0, 0.5, 0.5, 0),
+    },
+  },
 }));
 
 export default function DetailExpansionPanel({ data }) {
@@ -116,34 +123,34 @@ export default function DetailExpansionPanel({ data }) {
           <div className={classes.column}>
             {data.description}
           </div>
-          <div className={clsx(classes.column, classes.helper)}>
-            <Typography variant="caption">
-              Linguagem:
-              {data.language}
-              <br />
-              <a
-                className={classes.link}
-                href={data.html_url}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Visitar repositório
-              </a>
-            </Typography>
+          <div className={clsx(classes.column, classes.helper, classes.chips)}>
+            {data.language && (
+              <Chip
+                label={data.language}
+                variant="outlined"
+                color="primary"
+                size="small"
+                icon={<CodeIcon fontSize="small" />}
+              />
+            )}
+            <Chip
+              label={data.stargazers_count}
+              variant="outlined"
+              color="primary"
+              size="small"
+              icon={<StarIcon fontSize="small" />}
+            />
+            <Chip
+              label={data.watchers_count}
+              variant="outlined"
+              color="primary"
+              size="small"
+              icon={<VisibilityIcon fontSize="small" />}
+            />
           </div>
         </ExpansionPanelDetails>
         <Divider />
         <ExpansionPanelActions>
-          <div className={classes.stats}>
-            <div className={classes.stat}>
-              <StarIcon fontSize="small" />
-              {data.stargazers_count}
-            </div>
-            <div className={classes.stat}>
-              <VisibilityIcon fontSize="small" />
-              {data.watchers_count}
-            </div>
-          </div>
           <div className={classes.actions}>
             <Button
               size="small"

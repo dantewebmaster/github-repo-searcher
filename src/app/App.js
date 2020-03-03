@@ -29,14 +29,13 @@ class App extends Component {
   }
 
   render() {
-    const { state, actions } = this.props;
+    const { state } = this.props;
 
     return (
       <Container>
         <Header />
         <Results
           state={state}
-          actions={actions}
         />
         <Footer />
       </Container>
