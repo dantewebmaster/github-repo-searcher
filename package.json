@@ -1,6 +1,7 @@
 {
   "name": "github-repo-searcher",
   "version": "1.0.0",
+  "productName": "Github Repo Searcher",
   "description": "Aplicação para fazer buscas por repositórios do github.",
   "license": "MIT",
   "private": false,
@@ -28,7 +29,7 @@
     "start": "webpack-dev-server --hot --host 0.0.0.0 --config=./webpack.dev.config.js --mode development",
     "build": "webpack --config webpack.build.config.js --mode production",
     "package": "npm run build",
-    "postpackage": "electron-packager ./ --out=./builds"
+    "postpackage": "electron-packager ./ 'Github Repo Searcher' --overwrite=true --icon=src/assets/icons/mac/icon.icns --out=./builds"
   },
   "dependencies": {
     "@material-ui/core": "^4.9.3",
