@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
+import { useDispatch } from 'react-redux';
 
 // MUI Components
 import { makeStyles } from '@material-ui/core/styles';
@@ -20,7 +21,14 @@ import VisibilityIcon from '@material-ui/icons/Visibility';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import GithubIcon from '@material-ui/icons/GitHub';
 import CodeIcon from '@material-ui/icons/Code';
+import CallSplitIcon from '@material-ui/icons/CallSplit';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
+// Actions
+import { setState, fetchAuthor } from '../store/author/actions';
+import ProfileModal from './ProfileModal';
+
+// Styles
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
@@ -83,6 +91,13 @@ const useStyles = makeStyles((theme) => ({
   actions: {
     display: 'flex',
     flexDirection: 'row',
+
+    '& button': {
+      margin: theme.spacing(0, 0, 0, 0.5),
+    },
+    '& a': {
+      margin: theme.spacing(0, 0, 0, 0.5),
+    },
   },
   chips: {
     '& div': {
@@ -92,39 +107,48 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function DetailExpansionPanel({ data }) {
+  const [open, setOpen] = useState(false);
   const classes = useStyles();
+  const dispatch = useDispatch();
+
+  function handleGetAuthor(authorName) {
+    setOpen(true);
+    dispatch(setState({ state: 'authorName', value: authorName }));
+    dispatch(fetchAuthor());
+  }
 
   return (
-    <div className={classes.root}>
-      <ExpansionPanel elevation={0} style={{ border: '1px solid #f1f1f1' }}>
-        <ExpansionPanelSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1c-content"
-          id="panel1c-header"
-        >
-          <div className={classes.column}>
-            <Typography className={classes.heading}>{data.name}</Typography>
-          </div>
-          <div className={classes.column}>
-            <div className={classes.owner}>
-              <Avatar
-                variant="square"
-                alt="Remy Sharp"
-                src={data.owner.avatar_url}
-                className={classes.small}
-              />
-              <Typography className={classes.secondaryHeading}>
-                {data.owner.login}
-              </Typography>
+    <>
+      <div className={classes.root}>
+        <ExpansionPanel elevation={0} style={{ border: '1px solid #f1f1f1' }}>
+          <ExpansionPanelSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1c-content"
+            id="panel1c-header"
+          >
+            <div className={classes.column}>
+              <Typography className={classes.heading}>{data.name}</Typography>
             </div>
-          </div>
-        </ExpansionPanelSummary>
-        <ExpansionPanelDetails className={classes.details}>
-          <div className={classes.column}>
-            {data.description}
-          </div>
-          <div className={clsx(classes.column, classes.helper, classes.chips)}>
-            {data.language && (
+            <div className={classes.column}>
+              <div className={classes.owner}>
+                <Avatar
+                  variant="square"
+                  alt="Remy Sharp"
+                  src={data.owner.avatar_url}
+                  className={classes.small}
+                />
+                <Typography className={classes.secondaryHeading}>
+                  {data.owner.login}
+                </Typography>
+              </div>
+            </div>
+          </ExpansionPanelSummary>
+          <ExpansionPanelDetails className={classes.details}>
+            <div className={classes.column}>
+              {data.description}
+            </div>
+            <div className={clsx(classes.column, classes.helper, classes.chips)}>
+              {data.language && (
               <Chip
                 label={data.language}
                 variant="outlined"
@@ -132,41 +156,59 @@ export default function DetailExpansionPanel({ data }) {
                 size="small"
                 icon={<CodeIcon fontSize="small" />}
               />
-            )}
-            <Chip
-              label={data.stargazers_count}
-              variant="outlined"
-              color="primary"
-              size="small"
-              icon={<StarIcon fontSize="small" />}
-            />
-            <Chip
-              label={data.watchers_count}
-              variant="outlined"
-              color="primary"
-              size="small"
-              icon={<VisibilityIcon fontSize="small" />}
-            />
-          </div>
-        </ExpansionPanelDetails>
-        <Divider />
-        <ExpansionPanelActions>
-          <div className={classes.actions}>
-            <Button
-              size="small"
-              variant="outlined"
-              color="primary"
-              startIcon={<GithubIcon />}
-              href={data.html_url}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Repositório
-            </Button>
-          </div>
-        </ExpansionPanelActions>
-      </ExpansionPanel>
-    </div>
+              )}
+              <Chip
+                label={data.stargazers_count}
+                variant="outlined"
+                color="primary"
+                size="small"
+                icon={<StarIcon fontSize="small" />}
+              />
+              <Chip
+                label={data.forks_count}
+                variant="outlined"
+                color="primary"
+                size="small"
+                icon={<CallSplitIcon fontSize="small" />}
+              />
+              <Chip
+                label={data.watchers_count}
+                variant="outlined"
+                color="primary"
+                size="small"
+                icon={<VisibilityIcon fontSize="small" />}
+              />
+            </div>
+          </ExpansionPanelDetails>
+          <Divider />
+          <ExpansionPanelActions>
+            <div className={classes.actions}>
+              <Button
+                size="small"
+                variant="outlined"
+                color="primary"
+                startIcon={<AccountCircleIcon />}
+                onClick={() => handleGetAuthor(data.owner.login)}
+              >
+                Autor
+              </Button>
+              <Button
+                size="small"
+                variant="outlined"
+                color="primary"
+                startIcon={<GithubIcon />}
+                href={data.html_url}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Repositório
+              </Button>
+            </div>
+          </ExpansionPanelActions>
+        </ExpansionPanel>
+      </div>
+      <ProfileModal open={open} handleClose={() => setOpen(false)} />
+    </>
   );
 }
 
@@ -179,10 +221,12 @@ DetailExpansionPanel.propTypes = {
     language: PropTypes.string,
     description: PropTypes.string,
     name: PropTypes.string,
+    forks_count: PropTypes.number,
 
     owner: PropTypes.shape({
       login: PropTypes.string,
       avatar_url: PropTypes.string,
+      url: PropTypes.string,
     }).isRequired,
   }).isRequired,
 };

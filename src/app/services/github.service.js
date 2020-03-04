@@ -15,4 +15,18 @@ async function searchRepos(topic, page = 1) {
   }
 }
 
-export default searchRepos;
+async function fetchAuthor(authorName) {
+  try {
+    const response = await githubApi
+      .get(`/users/${authorName}`);
+
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
+
+export {
+  searchRepos,
+  fetchAuthor,
+};
