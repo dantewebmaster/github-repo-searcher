@@ -5,7 +5,7 @@ import * as actions from './actions';
 import * as selectors from './selectors';
 import ReposTypes from './types';
 
-import searchRepos from '../../services/github.service';
+import { searchRepos } from '../../services/github.service';
 
 export function* fetchReposRequest() {
   try {
