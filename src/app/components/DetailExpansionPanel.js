@@ -153,7 +153,6 @@ export default function DetailExpansionPanel({ data }) {
                 label={data.language}
                 variant="outlined"
                 color="primary"
-                size="small"
                 icon={<CodeIcon fontSize="small" />}
               />
               )}
@@ -161,21 +160,18 @@ export default function DetailExpansionPanel({ data }) {
                 label={data.stargazers_count}
                 variant="outlined"
                 color="primary"
-                size="small"
                 icon={<StarIcon fontSize="small" />}
               />
               <Chip
                 label={data.forks_count}
                 variant="outlined"
                 color="primary"
-                size="small"
                 icon={<CallSplitIcon fontSize="small" />}
               />
               <Chip
                 label={data.watchers_count}
                 variant="outlined"
                 color="primary"
-                size="small"
                 icon={<VisibilityIcon fontSize="small" />}
               />
             </div>
