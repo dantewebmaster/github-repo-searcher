@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 // MUI Components
 import { makeStyles } from '@material-ui/core/styles';
@@ -23,6 +23,7 @@ import GithubIcon from '@material-ui/icons/GitHub';
 import CodeIcon from '@material-ui/icons/Code';
 import CallSplitIcon from '@material-ui/icons/CallSplit';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import ErrorIcon from '@material-ui/icons/Error';
 
 // Actions
 import { setState, fetchAuthor } from '../store/author/actions';
@@ -108,6 +109,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function DetailExpansionPanel({ data }) {
   const [open, setOpen] = useState(false);
+  const authorData = useSelector((state) => state.author);
+
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -157,6 +160,12 @@ export default function DetailExpansionPanel({ data }) {
               />
               )}
               <Chip
+                label={data.open_issues_count}
+                variant="outlined"
+                color="primary"
+                icon={<ErrorIcon fontSize="small" />}
+              />
+              <Chip
                 label={data.stargazers_count}
                 variant="outlined"
                 color="primary"
@@ -203,7 +212,14 @@ export default function DetailExpansionPanel({ data }) {
           </ExpansionPanelActions>
         </ExpansionPanel>
       </div>
-      <ProfileModal open={open} handleClose={() => setOpen(false)} />
+      {authorData && (
+        <ProfileModal
+          open={open}
+          data={authorData.data}
+          loading={authorData.loading}
+          handleClose={() => setOpen(false)}
+        />
+      )}
     </>
   );
 }
@@ -218,6 +234,7 @@ DetailExpansionPanel.propTypes = {
     description: PropTypes.string,
     name: PropTypes.string,
     forks_count: PropTypes.number,
+    open_issues_count: PropTypes.number,
 
     owner: PropTypes.shape({
       login: PropTypes.string,

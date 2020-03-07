@@ -1,28 +1,38 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
+// MUI Components
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import Slide from '@material-ui/core/Slide';
 import Typography from '@material-ui/core/Typography';
-
+import Divider from '@material-ui/core/Divider';
 import Avatar from '@material-ui/core/Avatar';
 import { makeStyles } from '@material-ui/core/styles';
-
-import Divider from '@material-ui/core/Divider';
 
 // MUI Icons
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import LanguageIcon from '@material-ui/icons/Language';
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
 import Chip from '@material-ui/core/Chip';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const Transition = React.forwardRef((props, ref) => (
-  <Slide direction="up" ref={ref} {...props} />
+  <Slide
+    direction="up"
+    ref={ref}
+    {...props} // eslint-disable-line
+  />
 ));
 
 // Styles
 const useStyles = makeStyles((theme) => ({
+  modal: {
+    maxWidth: '780px',
+    margin: '0 auto',
+  },
   infos: {
     display: 'flex',
     marginBottom: theme.spacing(1.6),
@@ -39,7 +49,6 @@ const useStyles = makeStyles((theme) => ({
     border: `1px solid ${theme.palette.divider}`,
     padding: theme.spacing(1),
     borderRadius: 4,
-    justifyContent: 'space-evenly',
   },
   section: {
     display: 'flex',
@@ -69,15 +78,31 @@ const useStyles = makeStyles((theme) => ({
       margin: theme.spacing(0, 0.5, 0.5, 0),
     },
   },
+  loader: {
+    display: 'flex',
+    minHeight: '200px',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalActions: {
+    marginRight: theme.spacing(2),
+    marginLeft: theme.spacing(2),
+  },
 }));
 
-export default function ProfileModal({ open, handleClose, data }) {
+export default function ProfileModal({
+  open,
+  handleClose,
+  data,
+  loading,
+}) {
   const classes = useStyles();
 
   return (
     <Dialog
+      className={classes.modal}
       fullWidth
-      maxWidth="sm"
+      maxWidth={false}
       open={open}
       TransitionComponent={Transition}
       keepMounted
@@ -85,74 +110,126 @@ export default function ProfileModal({ open, handleClose, data }) {
       aria-labelledby="alert-dialog-slide-title"
       aria-describedby="alert-dialog-slide-description"
     >
-      <DialogContent>
-        <div className={classes.infos}>
-          <div className={classes.photo}>
-            <Avatar
-              variant="rounded"
-              src="https://avatars1.githubusercontent.com/u/9997161?s=460&v=4"
-              className={classes.avatar}
-            />
-            <Typography
-              variant="h6"
-              component="a"
-              href="https://github.com/dantewebmaster"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              @dantewebmaster
-            </Typography>
-          </div>
-          <div className={classes.bio}>
-            <Typography variant="h4" component="h2">Dante Webmaster</Typography>
+      {loading && (
+        <div className={classes.loader}>
+          <CircularProgress />
+        </div>
+      )}
+      {!loading && data !== null && (
+        <>
+          <DialogContent>
+            <div className={classes.infos}>
+              <div className={classes.photo}>
+                <Avatar
+                  variant="rounded"
+                  src={data.avatar_url}
+                  className={classes.avatar}
+                />
+                <Typography
+                  variant="h6"
+                  component="a"
+                  href={data.html_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {`@${data.login}`}
+                </Typography>
+              </div>
+              <div className={classes.bio}>
+                <Typography variant="h4" component="h2">
+                  {data.name}
+                </Typography>
 
-            <Typography variant="body2" component="p">
-              I am a Web Developer focused on Front-end and Wordpress CMS.
-              And now getting deeper into the Javascript universe.
-            </Typography>
-            <Divider light className={classes.divider} />
-            <div className={classes.chips}>
-              <Chip label="12 Seguidores" />
-              <Chip label="32 Seguindo" />
-              <Chip label="24 Gists" />
-              <Chip label="80 Repositórios públicos" />
+                <Typography variant="body2" component="p">
+                  {data.bio}
+                </Typography>
+                <Divider light className={classes.divider} />
+                <div className={classes.chips}>
+                  <Chip label={`${data.followers} Seguidores`} />
+                  <Chip label={`${data.following} Seguindo`} />
+                  <Chip label={`${data.public_gists} Gists`} />
+                  <Chip label={`${data.public_repos} Repositórios públicos`} />
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-        <div className={classes.extraInfo}>
-          <div className={classes.section}>
-            <AssignmentIndIcon fontSize="small" />
-            <Typography variant="body2" component="span">
-              Avanade
-            </Typography>
-          </div>
-          <div className={classes.section}>
-            <LocationOnIcon fontSize="small" />
-            <Typography variant="body2" component="span">
-              Brazil, São Paulo, SP
-            </Typography>
-          </div>
-          <div className={classes.section}>
-            <LanguageIcon fontSize="small" />
-            <a
-              href="https://dantewebmaster.github.io/"
+            {data.company || data.location || data.blog ? (
+              <div className={classes.extraInfo}>
+                {data.company && (
+                  <div className={classes.section}>
+                    <AssignmentIndIcon fontSize="small" />
+                    <Typography variant="body2" component="span">
+                      {data.company}
+                    </Typography>
+                  </div>
+                )}
+                {data.location && (
+                  <div className={classes.section}>
+                    <LocationOnIcon fontSize="small" />
+                    <Typography variant="body2" component="span">
+                      {data.location}
+                    </Typography>
+                  </div>
+                )}
+                {data.blog && (
+                  <div className={classes.section}>
+                    <LanguageIcon fontSize="small" />
+                    <a
+                      href={data.blog}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {data.blog}
+                    </a>
+                  </div>
+                )}
+              </div>
+            ) : <Divider light />}
+          </DialogContent>
+          <DialogActions className={classes.modalActions}>
+            <Button
+              onClick={handleClose}
+              color="primary"
+              variant="outlined"
+            >
+              Fechar
+            </Button>
+            <Button
+              onClick={handleClose}
+              color="primary"
+              variant="outlined"
+              href={data.html_url}
               target="_blank"
               rel="noopener noreferrer"
             >
-              https://dantewebmaster.github.io/
-            </a>
-          </div>
-        </div>
-      </DialogContent>
-      {/* <Divider light /> */}
-      <DialogActions>
-        <Button onClick={handleClose} color="primary">
-          Fechar
-        </Button>
-        <Button onClick={handleClose} color="primary">
-          Perfil Completo
-        </Button>
-      </DialogActions>
+              Perfil Completo
+            </Button>
+          </DialogActions>
+        </>
+      )}
     </Dialog>
   );
 }
+
+ProfileModal.propTypes = {
+  open: PropTypes.bool.isRequired,
+  handleClose: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
+  data: PropTypes.shape({
+    avatar_url: PropTypes.string,
+    html_url: PropTypes.string,
+    login: PropTypes.string,
+    name: PropTypes.string,
+    bio: PropTypes.string,
+    company: PropTypes.string,
+    location: PropTypes.string,
+    blog: PropTypes.string,
+    followers: PropTypes.number,
+    following: PropTypes.number,
+    public_gists: PropTypes.number,
+    public_repos: PropTypes.number,
+  }),
+};
+
+ProfileModal.defaultProps = {
+  data: {},
+};
