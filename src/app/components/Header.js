@@ -13,10 +13,14 @@ import { fade, makeStyles } from '@material-ui/core/styles';
 // MUI icons
 import GithubIcon from '@material-ui/icons/GitHub';
 import SearchIcon from '@material-ui/icons/Search';
+
+// Actions
 import { setState, fetchRepos } from '../store/repos/actions';
 
+// Utils
 import useDebounce from '../utils/hooks/useDebounce';
 
+// Styles
 const useStyles = makeStyles((theme) => ({
   header: {
     padding: theme.spacing(1),
@@ -72,10 +76,12 @@ export default function Header() {
 
   useEffect(() => {
     if (debouncedValue) {
+      dispatch(setState({ state: 'page', value: 1 }));
       dispatch(fetchRepos());
     }
     if (debouncedValue === '') {
       dispatch(setState({ state: 'repos', value: [] }));
+      dispatch(setState({ state: 'page', value: 1 }));
     }
   }, [debouncedValue, dispatch]);
 
