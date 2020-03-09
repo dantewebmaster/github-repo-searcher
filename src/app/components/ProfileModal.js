@@ -2,23 +2,26 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // MUI Components
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
+import {
+  Button,
+  Dialog,
+  DialogContent,
+  DialogActions,
+  Typography,
+  Divider,
+  Avatar,
+  CircularProgress,
+  Chip,
+} from '@material-ui/core';
 import Slide from '@material-ui/core/Slide';
-import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
-import Avatar from '@material-ui/core/Avatar';
 import { makeStyles } from '@material-ui/core/styles';
 
 // MUI Icons
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import LanguageIcon from '@material-ui/icons/Language';
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
-import Chip from '@material-ui/core/Chip';
-import CircularProgress from '@material-ui/core/CircularProgress';
 
+// Modal transition
 const Transition = React.forwardRef((props, ref) => (
   <Slide
     direction="up"

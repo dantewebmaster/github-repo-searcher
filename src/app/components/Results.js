@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+// MUI components
 import {
   CircularProgress,
   Card,
@@ -8,8 +9,11 @@ import {
   Typography,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+
+// MUI Icons
 import SearchIcon from '@material-ui/icons/Search';
 
+// App components
 import DetailedExpansionPanel from './DetailExpansionPanel';
 
 const useStyles = makeStyles((theme) => ({

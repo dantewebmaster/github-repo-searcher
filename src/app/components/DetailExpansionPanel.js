@@ -5,15 +5,17 @@ import { useDispatch, useSelector } from 'react-redux';
 
 // MUI Components
 import { makeStyles } from '@material-ui/core/styles';
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import ExpansionPanelActions from '@material-ui/core/ExpansionPanelActions';
-import Typography from '@material-ui/core/Typography';
-import Avatar from '@material-ui/core/Avatar';
-import Divider from '@material-ui/core/Divider';
-import Button from '@material-ui/core/Button';
-import Chip from '@material-ui/core/Chip';
+import {
+  ExpansionPanel,
+  ExpansionPanelDetails,
+  ExpansionPanelSummary,
+  ExpansionPanelActions,
+  Typography,
+  Avatar,
+  Divider,
+  Button,
+  Chip,
+} from '@material-ui/core';
 
 // MUI Icons
 import StarIcon from '@material-ui/icons/Star';
@@ -27,6 +29,8 @@ import ErrorIcon from '@material-ui/icons/Error';
 
 // Actions
 import { setState, fetchAuthor } from '../store/author/actions';
+
+// App components
 import ProfileModal from './ProfileModal';
 
 // Styles
@@ -212,14 +216,12 @@ export default function DetailExpansionPanel({ data }) {
           </ExpansionPanelActions>
         </ExpansionPanel>
       </div>
-      {authorData && (
-        <ProfileModal
-          open={open}
-          data={authorData.data}
-          loading={authorData.loading}
-          handleClose={() => setOpen(false)}
-        />
-      )}
+      <ProfileModal
+        open={open}
+        data={authorData.data}
+        loading={authorData.loading}
+        handleClose={() => setOpen(false)}
+      />
     </>
   );
 }
