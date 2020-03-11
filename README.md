@@ -23,16 +23,17 @@ Rode o comando `yarn build` ou `npm build` para criar os arquivos em modo prod.
 Depois de rodar esse comando, será gerada uma pasta chamada **dist** contendo os arquivos compactados em modo prod.  
 Depois disso siga os passos abaixo para gerar o aplicativo para o OS específico.
 
-### No Mac
+**No Mac**
 
 Rode o comando `yarn package-mac` ou `npm run package-mac`. Ao fazer isso será gerado uma pasta **builds** com o App pronto para ser usado.
 
-### No Windows
+**No Windows**
 
 Rode o comando `yarn package-win` ou `npm run package-win`. Pronto! a pasta **builds** irá conter o arquivo de aplicativo para Windows.
 
 ## Criando o instalador Mac e Windows
 Para criar o instalador da aplicação é bem simples.  
+
 **No Mac:**  
 Basta rodar o comando `yarn create-installer-mac` ou `npm run create-installer-mac`.   
 O arquivo instalador será criado dentro da pasta installers.
